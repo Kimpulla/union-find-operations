@@ -16,7 +16,7 @@ public class operations {
 		
 	if (array.equals(abc) || array.equals(oneTwo) && array2.equals(abc) || array2.equals(abc)) {
 		
-		for (int i = 0; i < array.length; i++) { //TODO: LENGTH
+		for (int i = 0; i < array.length; i++) { //TODO: LENGTH better yes
 			
 			if (array[i] != array2[i]) {
 				diff++;
@@ -142,5 +142,5 @@ public class operations {
 			
 			}
 			
-			}
+			} //TODO: Tests
 	}
