@@ -1,41 +1,67 @@
 package unionFind;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
+
 
 public class operations {
 	
 	static Object[] oneTwo = {"kiuru", "lokki", "rastas", "sorsa", "varis"};
-	static Object[] abc = {"kalle", "1", "jorma", "12", "on"};
+	static Object[] abc = {"kalle", "1", "rastas", "12", "on"};
+	static Object[] math = {"hash", "number", "12", "divide", "subtract"};
+	
 
-	
-	
+
+	/**
+	 * Metoid <b> union </b> toteuttaa union operaation toimivuuden.
+	 * 
+	 * <p> Kopioidaan kahdesta alkuper‰isest‰ annetusta taulukosta alkiot uuteen taulukkoon,
+	 *  jonka j‰lkeen kutsutaan metodia {@link remove}, joka poistaa duplikaatit taulukosta. </p>
+	 * 
+	 * @param array ensimm‰inen k‰sitelt‰v‰ taulukko.
+	 * @param array2 toinen k‰sitelt‰v‰ taulukko.
+	 */
 	private static void union(Object[] array, Object[] array2) {
 		
-	int diff = 0;
+		int size = array.length + array2.length;
 		
-	if (array.equals(abc) || array.equals(oneTwo) && array2.equals(abc) || array2.equals(abc)) {
-		
-		for (int i = 0; i < array.length; i++) { //TODO: LENGTH better yes
-			
-			if (array[i] != array2[i]) {
-				diff++;
-			}
-		}
-		
+        Object[] unionArray = new Object[size];
+        
+        System.arraycopy(array, 0, unionArray, 0, array.length);
+        System.arraycopy(array2, 0, unionArray, array.length, array2.length);
+       
+        for (int i = 0; i < size; i++) {
+        	 for (int j = i + 1; j < size; j++) {
+        		 
+        		 if ( unionArray[i] == unionArray[j] ) {
+        		 }
+        	 }
+        }
+       
+        System.out.println("Joukko union- operaation j‰lkeen: " + "unionArray" + Arrays.toString(remove(unionArray)) + "\n");
 	}
 	
-	Object[] newArray = new Object[diff + array.length];
 	
-	for ( int i = 0; i < array.length; i++) {
-		newArray[i] = array[i];	
-	}
+	/**
+	 * Metodi <b> remove </b> poistaa taulukosta duplikaatit alkiot.
+	 *  
+	 * <p> Luodaan lista annetusta taulukosta. T‰m‰n j‰lkeen k‰ytet‰‰n HashSetti‰ laittoamsti hyv‰ksemme. </p>
+	 * 
+	 * @param array muutettava taulukko.
+	 * @return taulukon, josta poistettu duplikaatit.
+	 */
+	private static <Object> Object[] remove(Object[] array) {
 	
-	
-	
-	System.out.println("Joukko union- operaation j‰lkeen: " + "newArray" + Arrays.toString(newArray) + "\n");
+		  List<Object> list = Arrays.asList(array);
 
-	}
+		
+		  HashSet<Object> set = new HashSet<Object>();
+		  set.addAll(list);
+
+		  return (Object[]) set.toArray();
+		}
 	
 	
 
@@ -52,21 +78,25 @@ public class operations {
 	 * @param value taulukon alkio, jota etsit‰‰n.
 	 */
 	private static void find(Object[] array, Object value) {
-		
-		
-		
+				
 		for (int i = 0; i < array.length;i++) {
 			
 			if ( array.equals(abc) && array[i].equals(value) ) {
 				
-				System.out.println("Solmu " + value + " kuuluu joukkoon: " + "abc" + Arrays.toString(array));
+				System.out.println("Solmu " + value + " kuuluu joukkoon: " + "abc" + Arrays.toString(array) + "\n");
 			}
 			else if(array.equals(oneTwo) && array[i].equals(value) ) {
 				
-				System.out.println("Solmu " + value + " kuuluu joukkoon: " + "oneTwo" + Arrays.toString(array));
+				System.out.println("Solmu " + value + " kuuluu joukkoon: " + "oneTwo" + Arrays.toString(array)+ "\n");
 			}
+			
+			else if(array.equals(math) && array[i].equals(value) ) {
+				
+				System.out.println("Solmu " + value + " kuuluu joukkoon: " + "math" + Arrays.toString(array)+ "\n");
+			}
+			
 			else {
-				System.err.println("Solmu "+ value + " ei sijaitse tietokannassa.");
+				System.err.println("Solmu " + value + "ei sijaitse joukossa " + Arrays.toString(array)+ "\n");
 				break;
 			}
 		}	
@@ -75,14 +105,19 @@ public class operations {
 
 	
 	
-	
-	
+	/**
+	 * //TODO: Tests
+	 * //TODO: ei t‰ysin toimi heitt‰‰ poikkeuksen, kenties try catch rakenne kuten aikaisemmissa
+	 * 
+	 * @param args ei kaytossa.
+	 */
 	public static void main(String[] args) {
 		
 		int size;
 		
-		System.out.println("Tietokannassa on joukot: "+ "\n" + "oneTwo"+ Arrays.toString(oneTwo)
-		+ "  abc" + Arrays.toString(abc) + "\n");
+		System.out.println("Tietokannassa on joukot: "+ "\n"+ "\n" + "oneTwo"+ Arrays.toString(oneTwo)
+		+ "\n"+"abc" + Arrays.toString(abc) + "\n" + "array"+ Arrays.toString(math)+ "\n");
+	
 		
 		
 		Scanner sc = new Scanner(System.in); 
@@ -90,7 +125,7 @@ public class operations {
 			
 		while(true) {
 		
-		System.out.println("Valitse ja kirjoita toiminto, jonka haluat suorittaa: [find], [union] tai [exit]");	
+		System.out.println("Valitse ja kirjoita toiminto, jonka haluat suorittaa: [find], [union] tai [exit] "+ "\n");	
 		String process = sc.next();
 		
 	
@@ -106,19 +141,18 @@ public class operations {
 					else if (sc.hasNext()) {
 							value = sc.next();
 					}
-					
+				
+			
+				
 				find(abc, value);
 				find(oneTwo, value);
+				find(math, value);
+			
 			}
-			
-			
-			
-			
-			
 			
 			else if (process.equals("union")) {
 				
-				System.out.println("Tietokannassa olevat joukot: oneTwo, abc");
+				System.out.println("Tietokannassa on joukot: oneTwo, abc ja math");
 				
 				
 				System.out.println("Syˆt‰ ensimm‰inen joukko: ");
@@ -129,18 +163,33 @@ public class operations {
 				
 				System.out.println("Joukkosi: ("+ name +" , "+ name2 +")." + "\n");
 				
-				if (name.equals(abc)) {
+				if (name.equals("abc") && name2.equals("oneTwo") ) {
 					union(abc,oneTwo);
 				}
+				else if (name.equals("oneTwo") && name2.equals("abc") ) {
 					union(oneTwo,abc);
+				}
+				else if (name.equals("abc") && name2.equals("math") ) {
+					union(abc,math);
+				}
+				else if (name.equals("math") && name2.equals("abc") ) {
+					union(math,abc);
+				}
+				else if (name.equals("math") && name2.equals("oneTwo") ) {
+					union(math,oneTwo);
+				}
+				else if (name.equals("oneTwo") && name2.equals("math") ) {
+					union(oneTwo,math);
+				}
+					
 			}
 		
-			else if (process.equals("exit")) {
+			else if (process.equals("exit")) { 
 				System.out.println("Suljetaan..: ");
 				sc.close();
 			}
 			
 			}
 			
-			} //TODO: Tests
+			} 
 	}
