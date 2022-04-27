@@ -12,8 +12,6 @@ public class operations {
 	static Object[] abc = {"kalle", "1", "rastas", "12", "on"};
 	static Object[] math = {"hash", "number", "12", "divide", "subtract"};
 	
-
-
 	/**
 	 * Metoid <b> union </b> toteuttaa union operaation toimivuuden.
 	 * 
@@ -23,7 +21,7 @@ public class operations {
 	 * @param array ensimmäinen käsiteltävä taulukko.
 	 * @param array2 toinen käsiteltävä taulukko.
 	 */
-	private static void union(Object[] array, Object[] array2) {
+	public static Object[] union(Object[] array, Object[] array2) {
 		
 		int size = array.length + array2.length;
 		
@@ -41,6 +39,8 @@ public class operations {
         }
        
         System.out.println("Joukko union- operaation jälkeen: " + "unionArray" + Arrays.toString(remove(unionArray)) + "\n");
+        
+        return unionArray;
 	}
 	
 	
@@ -52,7 +52,7 @@ public class operations {
 	 * @param array muutettava taulukko.
 	 * @return taulukon, josta poistettu duplikaatit.
 	 */
-	private static <Object> Object[] remove(Object[] array) {
+	public static  <Object> Object[] remove(Object[] array) {
 	
 		  List<Object> list = Arrays.asList(array);
 
@@ -62,9 +62,8 @@ public class operations {
 
 		  return (Object[]) set.toArray();
 		}
-	
-	
 
+	
 	/**
 	 * Metodi <b> find </b> toteuttaa find operaation.
 	 * 
@@ -77,7 +76,7 @@ public class operations {
 	 * @param array taulukko, jota käsitellään.
 	 * @param value taulukon alkio, jota etsitään.
 	 */
-	private static void find(Object[] array, Object value) {
+	public static Object[] find(Object[] array, Object value) {
 				
 		for (int i = 0; i < array.length;i++) {
 			
@@ -94,21 +93,39 @@ public class operations {
 				
 				System.out.println("Solmu " + value + " kuuluu joukkoon: " + "math" + Arrays.toString(array)+ "\n");
 			}
-			
-			else {
-				System.err.println("Solmu " + value + "ei sijaitse joukossa " + Arrays.toString(array)+ "\n");
-				break;
-			}
-		}	
+		}
+		return array;
 	}
 
-
-	
 	
 	/**
-	 * //TODO: Tests
-	 * //TODO: ei täysin toimi heittää poikkeuksen, kenties try catch rakenne kuten aikaisemmissa
+	  * <pre name="test">
 	 * 
+	 * #import java.util.Arrays;
+	 * #import java.util.HashSet;
+	 * #import java.util.Scanner;
+	 * #import java.util.List;
+	 * #import unionFind.operations;
+	 * 
+	 * 
+	 * Object[] oneTwo = {"kiuru", "lokki", "rastas", "sorsa", "varis"};
+	 * Object[] math = {"hash", "number", "12", "divide", "subtract"};	
+	 * Object[] abc = {"kalle", "1", "rastas", "12", "on"};
+	 * 
+	 * // Testataan metodia union:
+	 * 
+	 *	Arrays.toString(operations.union(abc,oneTwo)) === "[kalle, 1, rastas, 12, on, kiuru, lokki, rastas, sorsa, varis]";
+	 *	Arrays.toString(operations.union(math,abc)) === "[hash, number, 12, divide, subtract, kalle, 1, rastas, 12, on]";
+	 *
+	 *
+	 * // Testataan metodia find:
+	 * 
+	 * 	Arrays.toString(operations.find(abc, "rastas")) === "[kalle, 1, rastas, 12, on]";
+	 * 	Arrays.toString(operations.find(oneTwo, "lokki")) === "[kiuru, lokki, rastas, sorsa, varis]";	
+	 * 		
+	 * 	
+	 * 
+	 * </pre>
 	 * @param args ei kaytossa.
 	 */
 	public static void main(String[] args) {
@@ -118,9 +135,9 @@ public class operations {
 		System.out.println("Tietokannassa on joukot: "+ "\n"+ "\n" + "oneTwo"+ Arrays.toString(oneTwo)
 		+ "\n"+"abc" + Arrays.toString(abc) + "\n" + "array"+ Arrays.toString(math)+ "\n");
 	
-		
-		
 		Scanner sc = new Scanner(System.in); 
+		
+		try {
 		
 			
 		while(true) {
@@ -128,26 +145,19 @@ public class operations {
 		System.out.println("Valitse ja kirjoita toiminto, jonka haluat suorittaa: [find], [union] tai [exit] "+ "\n");	
 		String process = sc.next();
 		
-	
 			if (process.equals("find")) {
 					
 				Object value = null;
 					
 				System.out.println("Syötä etsittävän solmun arvo: ");
 	
-					if (sc.hasNextInt()) {
-							value = sc.nextInt();
-					}
-					else if (sc.hasNext()) {
+				    if (sc.hasNext()) {
 							value = sc.next();
-					}
-				
-			
-				
+					}	
+					
 				find(abc, value);
 				find(oneTwo, value);
 				find(math, value);
-			
 			}
 			
 			else if (process.equals("union")) {
@@ -181,7 +191,9 @@ public class operations {
 				else if (name.equals("oneTwo") && name2.equals("math") ) {
 					union(oneTwo,math);
 				}
-					
+				else {
+					System.err.println("Valitse oikea joukko");
+				}					
 			}
 		
 			else if (process.equals("exit")) { 
@@ -191,5 +203,7 @@ public class operations {
 			
 			}
 			
-			} 
+			} catch (Exception e) {/*do nothing*/}
+			sc.close();
 	}
+}
